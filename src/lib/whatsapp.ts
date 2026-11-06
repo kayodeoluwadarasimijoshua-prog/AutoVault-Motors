@@ -6,7 +6,7 @@
  * returns null so callers can disable the action and explain why.
  */
 
-import { getConfiguredWhatsAppNumber } from "@/lib/config";
+import { IS_CONCEPT_PROJECT, getConfiguredWhatsAppNumber } from "@/lib/config";
 import { formatVehicleName } from "@/lib/formatters";
 import type { Vehicle } from "@/types/vehicle";
 
@@ -46,7 +46,11 @@ export function buildWhatsAppUrl(message?: string): string | null {
   const trimmed = message?.trim();
   if (!trimmed) return `${WHATSAPP_BASE_URL}/${number}`;
 
-  const params = new URLSearchParams({ text: trimmed });
+  const params = new URLSearchParams({
+    text: IS_CONCEPT_PROJECT
+      ? `AutoVault website demo enquiry for Growthly — sample vehicles are not for sale.\n\n${trimmed}`
+      : trimmed,
+  });
   return `${WHATSAPP_BASE_URL}/${number}?${params.toString()}`;
 }
 

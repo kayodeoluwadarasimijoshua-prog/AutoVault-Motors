@@ -51,7 +51,7 @@ export function Logo({ className, tone = "light", compact = false }: LogoProps) 
         <span
           className={cn(
             "mt-1 text-[9px] font-medium uppercase tracking-[0.34em]",
-            tone === "light" ? "text-ink-400" : "text-ink-500",
+            tone === "light" ? "text-ink-300" : "text-ink-500",
           )}
         >
           Motors

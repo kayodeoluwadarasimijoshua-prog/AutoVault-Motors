@@ -2,6 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { renderToStaticMarkup } from "react-dom/server";
 import { EnquiryForm } from "@/components/contact/enquiry-form";
 
 beforeEach(() => {
@@ -15,6 +16,17 @@ afterEach(() => {
 });
 
 describe("EnquiryForm validation", () => {
+  it("keeps personal-data fields unavailable until safe client submission is ready", () => {
+    const html = renderToStaticMarkup(<EnquiryForm />);
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    expect(container.querySelector("form")?.getAttribute("method")).toBe("post");
+    const fieldset = container.querySelector("fieldset");
+    expect(fieldset?.hasAttribute("disabled")).toBe(true);
+    expect(fieldset?.hasAttribute("hidden")).toBe(true);
+    expect(fieldset?.querySelectorAll("input, textarea").length).toBe(4);
+    expect(container.querySelector("noscript")?.textContent).toContain("WhatsApp");
+  });
   it("blocks an empty submission and associates each error with its field", async () => {
     const user = userEvent.setup();
     render(<EnquiryForm />);

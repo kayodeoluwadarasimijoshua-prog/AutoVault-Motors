@@ -1,5 +1,7 @@
 # AutoVault Motors
 
+The current portfolio refinements, verification results and Growthly publication steps are documented in [Refinement Results](docs/REFINEMENT-RESULTS.md).
+
 A production-quality automotive dealership website concept built by **Growthly** as a portfolio
 demonstration for Nigerian car dealerships.
 
@@ -218,15 +220,14 @@ needed for a new list of cars.
 
 ## What is configured by default
 
-Out of the box, with no environment variables:
+Development has no contact details unless you configure them. A production build reads the
+committed `.env.production`, which contains Growthly's public demo contact details. Host settings
+can override them. The contact page and prepared demo messages explain that enquiries reach the
+demo creator; AutoVault does not sell vehicles. An invalid or missing number disables WhatsApp
+links, and invalid email configuration hides email actions.
 
-- WhatsApp number: **not configured** → WhatsApp buttons are replaced with contact-page links, and
-  vehicle pages show the composed message in a preview panel.
-- Email: **not configured** → no email address is displayed anywhere.
-- Site URL: **not configured** → no canonical tags and an empty sitemap (no invented domain).
-
-This is deliberate: a portfolio demo must never route enquiries to a phone number or domain that
-does not belong to the client.
+Canonical links and sitemap entries require an explicitly configured `NEXT_PUBLIC_SITE_URL`.
+Platform deployment metadata can supply the Open Graph base without inventing a canonical domain.
 
 ## Deployment
 

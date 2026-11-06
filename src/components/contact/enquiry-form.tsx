@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Send, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FieldShell, Input, Textarea } from "@/components/ui/input";
@@ -21,6 +21,9 @@ type FormErrors = Partial<Record<keyof FormValues, string>>;
 const EMPTY: FormValues = { name: "", email: "", subject: "", message: "" };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const subscribeToHydration = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 function validate(values: FormValues): FormErrors {
   const errors: FormErrors = {};
@@ -48,6 +51,9 @@ export function EnquiryForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<Status>("idle");
   const emailReady = isEmailConfigured();
+  // Inputs are unavailable until React can intercept submission. A no-JS
+  // visitor uses the explicit contact links, never a GET containing form data.
+  const ready = useSyncExternalStore(subscribeToHydration, clientReady, serverReady);
 
   function update<K extends keyof FormValues>(key: K, value: FormValues[K]) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -73,7 +79,7 @@ export function EnquiryForm() {
     }
 
     setErrors({});
-    const subject = `Website enquiry: ${values.subject.trim()}`;
+    const subject = `AutoVault demo enquiry for Growthly: ${values.subject.trim()}`;
     const body = composeMessage(values);
 
     if (emailReady) {
@@ -95,97 +101,112 @@ export function EnquiryForm() {
 
   return (
     <form
+      method="post"
+      action="/contact"
       noValidate
       onSubmit={handleSubmit}
       aria-labelledby="enquiry-form-heading"
       className="rounded-[var(--radius-panel)] border border-bone-200 bg-white p-5 shadow-[var(--shadow-panel)] sm:p-6"
     >
-      <h2 id="enquiry-form-heading" className="text-lg font-semibold tracking-[-0.015em] text-ink-950">
+      <h2
+        id="enquiry-form-heading"
+        className="text-lg font-semibold tracking-[-0.015em] text-ink-950"
+      >
         Send an enquiry
       </h2>
       <p className="mt-1.5 text-[13px] leading-relaxed text-ink-600">
-        Tell the team which vehicle you are interested in and what you would like to know.
+        Try the handoff with a sample enquiry, or ask Growthly about a website like this.
       </p>
 
       <p className="mt-3 flex items-start gap-2 rounded-md border border-bone-300 bg-bone-100 px-3 py-2.5 text-[12px] leading-relaxed text-ink-600">
-        <TriangleAlert aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 text-ink-500" strokeWidth={1.9} />
+        <TriangleAlert
+          aria-hidden="true"
+          className="mt-0.5 size-3.5 shrink-0 text-ink-500"
+          strokeWidth={1.9}
+        />
         Demonstration form: nothing is stored or sent to a server. On submission your message is
         handed to {emailReady ? "your email app" : "a channel available to this build"}, so you can
         review it before sending.
       </p>
 
-      <div className="mt-5 grid gap-4">
-        <FieldShell id="enquiry-name" label="Name" error={errors.name}>
-          <Input
-            id="enquiry-name"
-            name="name"
-            autoComplete="name"
-            value={values.name}
-            onChange={(event) => update("name", event.target.value)}
-            invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "enquiry-name-error" : undefined}
-            required
-          />
-        </FieldShell>
-
-        <FieldShell id="enquiry-email" label="Email address" error={errors.email}>
-          <Input
-            id="enquiry-email"
-            name="email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={values.email}
-            onChange={(event) => update("email", event.target.value)}
-            invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "enquiry-email-error" : undefined}
-            required
-          />
-        </FieldShell>
-
-        <FieldShell id="enquiry-subject" label="Subject" error={errors.subject}>
-          <Input
-            id="enquiry-subject"
-            name="subject"
-            value={values.subject}
-            onChange={(event) => update("subject", event.target.value)}
-            invalid={Boolean(errors.subject)}
-            aria-describedby={errors.subject ? "enquiry-subject-error" : undefined}
-            placeholder="e.g. Enquiry about the 2020 Toyota RAV4"
-            required
-          />
-        </FieldShell>
-
-        <FieldShell
-          id="enquiry-message"
-          label="Message"
-          error={errors.message}
-          hint="Include the vehicle reference if you have one, plus any questions about inspection or paperwork."
-        >
-          <Textarea
-            id="enquiry-message"
-            name="message"
-            value={values.message}
-            onChange={(event) => update("message", event.target.value)}
-            invalid={Boolean(errors.message)}
-            aria-describedby={
-              errors.message ? "enquiry-message-error" : "enquiry-message-hint"
-            }
-            required
-          />
-        </FieldShell>
-      </div>
-
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Button type="submit" variant="primary" size="lg" className="w-full sm:w-auto">
-          <Send aria-hidden="true" className="size-4" strokeWidth={1.9} />
-          Prepare enquiry
-        </Button>
-        <p className="text-[11px] leading-relaxed text-ink-500">
-          We never claim an enquiry was received unless a delivery service is connected.
+      <noscript>
+        <p className="mt-4 text-sm">
+          Use the email or WhatsApp links above to contact the demo team. The enquiry composer
+          requires JavaScript.
         </p>
-      </div>
+      </noscript>
+      <fieldset disabled={!ready} hidden={!ready}>
+        <legend className="sr-only">Prepare your demo enquiry</legend>
+        <div className="mt-5 grid gap-4">
+          <FieldShell id="enquiry-name" label="Name" error={errors.name}>
+            <Input
+              id="enquiry-name"
+              name="name"
+              autoComplete="name"
+              value={values.name}
+              onChange={(event) => update("name", event.target.value)}
+              invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "enquiry-name-error" : undefined}
+              required
+            />
+          </FieldShell>
 
+          <FieldShell id="enquiry-email" label="Email address" error={errors.email}>
+            <Input
+              id="enquiry-email"
+              name="email"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              value={values.email}
+              onChange={(event) => update("email", event.target.value)}
+              invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "enquiry-email-error" : undefined}
+              required
+            />
+          </FieldShell>
+
+          <FieldShell id="enquiry-subject" label="Subject" error={errors.subject}>
+            <Input
+              id="enquiry-subject"
+              name="subject"
+              value={values.subject}
+              onChange={(event) => update("subject", event.target.value)}
+              invalid={Boolean(errors.subject)}
+              aria-describedby={errors.subject ? "enquiry-subject-error" : undefined}
+              placeholder="e.g. Enquiry about the 2020 Toyota RAV4"
+              required
+            />
+          </FieldShell>
+
+          <FieldShell
+            id="enquiry-message"
+            label="Message"
+            error={errors.message}
+            hint="Include the vehicle reference if you have one, plus any questions about inspection or paperwork."
+          >
+            <Textarea
+              id="enquiry-message"
+              name="message"
+              value={values.message}
+              onChange={(event) => update("message", event.target.value)}
+              invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? "enquiry-message-error" : "enquiry-message-hint"}
+              required
+            />
+          </FieldShell>
+        </div>
+
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button type="submit" variant="primary" size="lg" className="w-full sm:w-auto">
+            <Send aria-hidden="true" className="size-4" strokeWidth={1.9} />
+            Prepare enquiry
+          </Button>
+          <p className="text-[11px] leading-relaxed text-ink-500">
+            Nothing is sent until you send it from your email app or WhatsApp.
+          </p>
+        </div>
+      </fieldset>
       <div role="status" aria-live="polite" className="mt-4 empty:mt-0">
         {status === "invalid" ? (
           <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2.5 text-[12px] font-medium text-red-800">

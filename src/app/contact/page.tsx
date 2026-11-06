@@ -46,8 +46,8 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact"
-        title="Start a conversation about a vehicle"
-        description="Ask about a specific listing, request more photographs, or arrange an inspection with the dealership. WhatsApp is the primary channel for this concept."
+        title="Try the enquiry experience"
+        description="This is a dealership website demo by Growthly. Configured contact links reach the demo team; no vehicles, inspections or reservations are offered here."
       />
 
       <section aria-labelledby="contact-options-heading" className="bg-bone-50 py-10 sm:py-14">
@@ -57,9 +57,9 @@ export default function ContactPage() {
               Ways to reach the team
             </h2>
             <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink-600">
-              The fastest route is a WhatsApp message. If you already know which vehicle you are
-              interested in, open its listing and use the enquiry button so the message carries the
-              vehicle reference.
+              Try a prepared WhatsApp enquiry to see how a listing can carry its vehicle reference
+              into a conversation. Messages from this demo reach Growthly, the website creator.
+              Review your message before choosing to send it.
             </p>
 
             <div className="mt-6 space-y-4">
@@ -168,7 +168,10 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section aria-labelledby="contact-faq-heading" className="border-t border-bone-200 bg-bone-100 py-14">
+      <section
+        aria-labelledby="contact-faq-heading"
+        className="border-t border-bone-200 bg-bone-100 py-14"
+      >
         <div className="container-page grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <div>
             <p className="eyebrow text-moss-700">Contact questions</p>

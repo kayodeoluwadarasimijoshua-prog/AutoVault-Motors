@@ -13,7 +13,7 @@ export function FeaturedVehicles() {
           headingId="featured-heading"
           eyebrow="Featured vehicles"
           title="A shortlist to start from"
-          description="Four listings chosen to show how a vehicle card presents price, condition and the specifications buyers ask about first."
+          description="Explore sample listings across five makes, with prices, condition and the specifications buyers ask about first."
           action={
             <ButtonLink href="/inventory" variant="outline" size="md" className="group">
               View all {VEHICLE_COUNT} vehicles

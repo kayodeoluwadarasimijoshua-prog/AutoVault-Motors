@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { DemoBanner } from "@/components/layout/demo-banner";
 import { ComparisonProvider } from "@/components/vehicles/comparison-provider";
 import { BUSINESS_NAME, getMetadataBase } from "@/lib/config";
 import { OG_IMAGE } from "@/lib/seo";
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <ComparisonProvider>
+          <DemoBanner />
           <Header />
           <main id="main-content" className="flex-1">
             {children}

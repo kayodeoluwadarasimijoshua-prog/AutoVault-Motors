@@ -80,7 +80,8 @@ describe("WhatsApp helpers with a configured number", () => {
 
     const parsed = new URL(url!);
     expect(parsed.origin + parsed.pathname).toBe("https://wa.me/2348012345678");
-    expect(parsed.searchParams.get("text")).toBe(message);
+    expect(parsed.searchParams.get("text")).toContain(message);
+    expect(parsed.searchParams.get("text")).toContain("sample vehicles are not for sale");
     expect(url).not.toContain(" ");
     expect(url).not.toContain("\n");
   });
@@ -120,7 +121,10 @@ describe("enquiry copy by availability", () => {
 
   it("does not imply a reserved vehicle is buyable now", async () => {
     const whatsapp = await loadWhatsAppModule({ NEXT_PUBLIC_WHATSAPP_NUMBER: "2348012345678" });
-    const message = whatsapp.buildVehicleEnquiryMessage({ ...baseVehicle, availability: "Reserved" });
+    const message = whatsapp.buildVehicleEnquiryMessage({
+      ...baseVehicle,
+      availability: "Reserved",
+    });
     expect(message).toContain("reserved");
     expect(message).not.toContain("I am interested in");
   });

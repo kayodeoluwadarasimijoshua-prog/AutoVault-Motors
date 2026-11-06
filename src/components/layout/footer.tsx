@@ -31,8 +31,8 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo />
             <p className="mt-5 text-sm leading-relaxed text-ink-300">
-              A modern showroom concept for browsing vehicles, comparing specifications, and starting
-              a conversation with the dealership on WhatsApp.
+              A modern showroom concept for browsing vehicles, comparing specifications, and
+              starting a conversation with the dealership on WhatsApp.
             </p>
             <p className="mt-4 text-xs leading-relaxed text-ink-400">
               {VEHICLE_COUNT} demonstration listings · Nigerian naira pricing · Built for mobile
@@ -157,7 +157,7 @@ export function Footer() {
         <div className="mt-12 rounded-[var(--radius-card)] border border-white/10 bg-ink-900/60 p-5">
           <p className="eyebrow text-moss-300">Demonstration project</p>
           <p className="mt-2 max-w-4xl text-xs leading-relaxed text-ink-300">{DEMO_NOTICE}</p>
-          <p className="mt-2 text-xs leading-relaxed text-ink-400">
+          <p className="mt-2 text-xs leading-relaxed text-ink-300">
             No showroom address, business registration number or telephone line is published because
             this concept does not represent a trading business.
           </p>
@@ -169,8 +169,13 @@ export function Footer() {
           </p>
           <p>
             Concept and design by{" "}
-            <span className="font-medium text-ink-200">{STUDIO_NAME}</span> · Portfolio
-            demonstration
+            <a
+              href="https://growthly.com.ng/"
+              className="font-medium text-ink-200 underline underline-offset-4"
+            >
+              {STUDIO_NAME}
+            </a>{" "}
+            · Portfolio demonstration
           </p>
         </div>
       </div>

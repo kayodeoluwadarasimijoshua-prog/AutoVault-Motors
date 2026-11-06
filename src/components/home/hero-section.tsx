@@ -14,9 +14,12 @@ export function HeroSection() {
   ];
 
   return (
-    <section aria-labelledby="hero-heading" className="grain-dark relative isolate overflow-hidden bg-ink-950 text-bone-50">
+    <section
+      aria-labelledby="hero-heading"
+      className="grain-dark relative isolate overflow-hidden bg-ink-950 text-bone-50"
+    >
       <div className="container-page grid gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,1fr)] lg:items-center lg:gap-14 lg:py-20">
-        <div className="order-2 max-w-[35rem] lg:order-1">
+        <div className="max-w-[35rem]">
           <p className="eyebrow flex items-center gap-2.5 text-moss-300">
             <span aria-hidden="true" className="h-px w-7 bg-moss-500" />
             Automotive showroom concept
@@ -27,13 +30,13 @@ export function HeroSection() {
           </h1>
 
           <p className="lede mt-5 max-w-[31rem] text-ink-300">
-            Explore our vehicle collection, compare your options, and speak with our team about the
-            car that suits your needs.
+            Try a dealership website built around the buyer: filter by budget, compare up to three
+            vehicles, and explore a detailed listing. All vehicles and prices are samples.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <ButtonLink href="/inventory" size="lg" variant="primary" className="group">
-              Browse Available Cars
+              Explore the demo inventory
               <ArrowRight
                 aria-hidden="true"
                 className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
@@ -75,12 +78,12 @@ export function HeroSection() {
           </dl>
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div>
           <div className="relative overflow-hidden rounded-[var(--radius-panel)] border border-white/10">
             <div className="relative aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-[5/4]">
               <Image
                 src="/images/hero-autovault.jpg"
-                alt="Studio photograph of a dark saloon car under warm showroom lighting, with reflections along the bodywork"
+                alt="AI-generated illustration of a dark saloon car under warm showroom lighting"
                 fill
                 priority
                 sizes="(min-width: 1024px) 46vw, 92vw"
@@ -91,8 +94,7 @@ export function HeroSection() {
                 className="absolute inset-0 bg-[linear-gradient(180deg,rgb(16_18_20/0)_45%,rgb(16_18_20/0.72)_100%)]"
               />
               <p className="absolute inset-x-0 bottom-0 p-4 text-[11px] leading-relaxed tracking-[0.02em] text-ink-200 sm:p-5">
-                Illustrative studio imagery · demonstration project, not a photograph of a specific
-                vehicle in stock
+                AI-generated concept imagery · no real vehicle offered for sale
               </p>
             </div>
           </div>
